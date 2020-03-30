@@ -15,4 +15,9 @@ public class GManager : MonoBehaviour
     {
         
     }
+
+    public void DealRound()
+    {
+
+    }
 }
