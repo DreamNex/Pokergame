@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Deck : MonoBehaviour
 {
-    public Cards[] DeckofCards = new Cards[52];
+    public Cards[] DeckofCards;
+    private int index;
     // Start is called before the first frame update
     void Start()
     {
-
+        index = 0;
     }
 
     public void ShuffleDeck()
@@ -16,7 +17,11 @@ public class Deck : MonoBehaviour
         for(int i = 0; i < DeckofCards.Length; i++)
         {
             Cards temp = DeckofCards[i];
-            int index = Random.Range(i, DeckofCards.Length);
+            index = Random.Range(i, DeckofCards.Length);
+            //DeckofCards[i].cardnumber = DeckofCards[index].cardnumber;
+            //DeckofCards[i].cardtype = DeckofCards[index].cardtype;
+            //DeckofCards[index].cardnumber = temp.cardnumber;
+            //DeckofCards[index].cardtype = temp.cardtype;
             DeckofCards[i] = DeckofCards[index];
             DeckofCards[index] = temp;
         }
@@ -39,5 +44,12 @@ public class Deck : MonoBehaviour
 
         return null;
         
+    }
+    public void ResetDeck()
+    {
+        for(int i = 0; i < DeckofCards.Length; i++)
+        {
+            DeckofCards[i].SetIsPlayed(false);
+        }
     }
 }
