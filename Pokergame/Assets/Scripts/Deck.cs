@@ -18,10 +18,6 @@ public class Deck : MonoBehaviour
         {
             Cards temp = DeckofCards[i];
             index = Random.Range(i, DeckofCards.Length);
-            //DeckofCards[i].cardnumber = DeckofCards[index].cardnumber;
-            //DeckofCards[i].cardtype = DeckofCards[index].cardtype;
-            //DeckofCards[index].cardnumber = temp.cardnumber;
-            //DeckofCards[index].cardtype = temp.cardtype;
             DeckofCards[i] = DeckofCards[index];
             DeckofCards[index] = temp;
         }
