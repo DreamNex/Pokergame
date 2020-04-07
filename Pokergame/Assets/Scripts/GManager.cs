@@ -30,7 +30,9 @@ public class GManager : MonoBehaviour
         Dec.GetComponent<Deck>().ShuffleDeck();
 
         DealCards();
-
+        
+        //Player1.GetComponent<Player>().SortCards();
+        //Player2.GetComponent<Player>().SortCards();
     }
 
     public void DealCards()

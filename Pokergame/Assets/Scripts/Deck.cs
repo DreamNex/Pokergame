@@ -22,7 +22,6 @@ public class Deck : MonoBehaviour
             DeckofCards[index] = temp;
         }
     }
-
     public Cards GetTopCard()
     {
         for(int i = 0; i < DeckofCards.Length; i++)

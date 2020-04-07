@@ -1300,6 +1300,12 @@ MonoBehaviour:
   Hand:
   - {fileID: 742850214}
   - {fileID: 1096283563}
+  TableC:
+  - {fileID: 973838417}
+  - {fileID: 435495352}
+  - {fileID: 97825747}
+  - {fileID: 1966683741}
+  - {fileID: 1376670168}
 --- !u!1 &420257530
 GameObject:
   m_ObjectHideFlags: 0
@@ -3195,6 +3201,12 @@ MonoBehaviour:
   Hand:
   - {fileID: 642493336}
   - {fileID: 1364018491}
+  TableC:
+  - {fileID: 973838417}
+  - {fileID: 435495352}
+  - {fileID: 97825747}
+  - {fileID: 1966683741}
+  - {fileID: 1376670168}
 --- !u!1 &1208713535
 GameObject:
   m_ObjectHideFlags: 0
