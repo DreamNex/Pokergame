@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     public Cards[] TableC;
 
     private Cards[] fullHand = new Cards[7];
-    
+    private Cards HighestCard;
     // Start is called before the first frame update
     void Start()
     {
@@ -59,24 +59,59 @@ public class Player : MonoBehaviour
 
     public void GetHand()
     {
-        SortCards();
+
         int samecardcounter = 0;
         int sametypecounter = 0;
 
-        for(int i = 0; i < fullHand.Length; i++)
+        SortCards();
+        
+        for (int i = 0; i < fullHand.Length; i++)
         {
-            for(int j = i + 1; j < fullHand.Length; j++)
+            for (int j = i + 1; j < fullHand.Length; j++)
             {
-                if(i == j)
+                if (i == j)
                 {
                     continue;
                 }
                 //same card for how many pairs
-                else if(fullHand[i].Cn == fullHand[j].Cn)
+                else if (fullHand[i].Cn == fullHand[j].Cn)
                 {
+                    if(HighestCard != null && HighestCard.Cn < fullHand[i].Cn)
+                    {
+                        HighestCard = fullHand[i];
+                    }
+                    else
+                    {
+                        HighestCard = fullHand[i];
+                    }
                     samecardcounter++;
                 }
+                else if (fullHand[i].suit == fullHand[j].suit)
+                {
+                    sametypecounter++;
+                }
             }
+        }
+
+        if (samecardcounter == 0 && sametypecounter == 0)
+        {
+            dhand = DHand.HIGHCARD;
+        }
+        else if (samecardcounter < 2 && samecardcounter > 0 && sametypecounter < 5)
+        {
+            dhand = DHand.ONEPAIR;
+        }
+        else if (samecardcounter == 2 && sametypecounter < 5)
+        {
+            dhand = DHand.TWOPAIR;
+        }
+        else if(samecardcounter == 3 && sametypecounter < 5)
+        {
+            dhand = DHand.THREEOFAKIND;
+        }
+        else if(samecardcounter == 4 && sametypecounter < 5)
+        {
+            dhand = DHand.FOUROFAKIND;
         }
     }
 }
