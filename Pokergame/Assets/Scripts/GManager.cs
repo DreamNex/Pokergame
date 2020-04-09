@@ -15,9 +15,12 @@ public class GManager : MonoBehaviour
     private GameObject Dec;
     private GameObject OriginalDec;
 
+    private GameObject GameOverText;
+
     // Start is called before the first frame update
     void Start()
     {
+        GameOverText = GameObject.FindGameObjectWithTag("GameOver");
         Dec = GameObject.FindGameObjectWithTag("Deck");
         OriginalDec = Dec;
 
@@ -30,9 +33,13 @@ public class GManager : MonoBehaviour
         Dec.GetComponent<Deck>().ShuffleDeck();
 
         DealCards();
-        
+
         //Player1.GetComponent<Player>().SortCards();
         //Player2.GetComponent<Player>().SortCards();
+        Player1.GetComponent<Player>().GetHand();
+        Player2.GetComponent<Player>().GetHand();
+
+        GetWinner();
     }
 
     public void DealCards()
@@ -55,6 +62,32 @@ public class GManager : MonoBehaviour
         }
     }
 
-      
+    public void GetWinner()
+    {
+        if(Player1.GetComponent<Player>().dhand == Player2.GetComponent<Player>().dhand)
+        {
+            if(Player1.GetComponent<Player>().GetHighestCard().Cn > Player2.GetComponent<Player>().GetHighestCard().Cn)
+            {
+                GameOverText.GetComponent<Text>().text = "Player 1 Wins!";
+            }
+            else if(Player1.GetComponent<Player>().GetHighestCard().Cn == Player2.GetComponent<Player>().GetHighestCard().Cn)
+            {
+                GameOverText.GetComponent<Text>().text = "It's a tie!";
+            }
+            else
+            {
+                GameOverText.GetComponent<Text>().text = "Player 2 Wins";
+            }
+        }
+        else if(Player1.GetComponent<Player>().dhand > Player2.GetComponent<Player>().dhand)
+        {
+            GameOverText.GetComponent<Text>().text = "Player 1 Wins!";
+        }
 
+        else if (Player1.GetComponent<Player>().dhand < Player2.GetComponent<Player>().dhand)
+        {
+            GameOverText.GetComponent<Text>().text = "Player 2 Wins!";
+        }
+    }
+      
 }

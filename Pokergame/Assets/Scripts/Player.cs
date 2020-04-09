@@ -56,7 +56,10 @@ public class Player : MonoBehaviour
             }
         }
     }
-
+    public Cards GetHighestCard()
+    {
+        return HighestCard;
+    }
     public void GetHand()
     {
 
