@@ -26,7 +26,8 @@ public class Cards: MonoBehaviour
         JACK,
         QUEEN,
         KING,
-        ACE
+        ACE,
+        DEFAULT
     };
 
     public Suits suit;

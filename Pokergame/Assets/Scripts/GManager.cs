@@ -5,16 +5,12 @@ using UnityEngine;
 
 public class GManager : MonoBehaviour
 {
-    public Cards[] P1Hand;
-    public Cards[] P2Hand;
     public Cards[] TableC;
-
     public GameObject Player1;
     public GameObject Player2;
 
     private GameObject Dec;
     private GameObject OriginalDec;
-
     private GameObject GameOverText;
 
     // Start is called before the first frame update
@@ -66,13 +62,13 @@ public class GManager : MonoBehaviour
     {
         if(Player1.GetComponent<Player>().dhand == Player2.GetComponent<Player>().dhand)
         {
-            if(Player1.GetComponent<Player>().GetHighestCard().Cn > Player2.GetComponent<Player>().GetHighestCard().Cn)
+            if(Player1.GetComponent<Player>().GetHighestCard() > Player2.GetComponent<Player>().GetHighestCard())
             {
                 GameOverText.GetComponent<Text>().text = "Player 1 Wins!";
             }
-            else if(Player1.GetComponent<Player>().GetHighestCard().Cn == Player2.GetComponent<Player>().GetHighestCard().Cn)
+            else if(Player1.GetComponent<Player>().GetHighestCard() == Player2.GetComponent<Player>().GetHighestCard())
             {
-                GameOverText.GetComponent<Text>().text = "It's a tie!";
+               GameOverText.GetComponent<Text>().text = "It's a tie!";
             }
             else
             {
