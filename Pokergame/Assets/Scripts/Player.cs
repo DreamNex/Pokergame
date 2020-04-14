@@ -27,9 +27,11 @@ public class Player : MonoBehaviour
 
     private Cards[] fullHand = new Cards[7];
     private Cards.CardNum HighestCard;
+    private int groupIter;
     // Start is called before the first frame update
     void Start()
     {
+        groupIter = 0;
         dhand = DHand.DDEFAULT;
         HighestCard = Cards.CardNum.DEFAULT;
     }
@@ -44,6 +46,7 @@ public class Player : MonoBehaviour
         {
             fullHand[i] = TableC[i - 2];
         }
+
 
         for (int x = 0; x < fullHand.Length; x++)
         {
@@ -118,11 +121,12 @@ public class Player : MonoBehaviour
                         HighestCard = fullHand[i].Cn;
                     }
                     cardcounter++;
+                    break;
                 }
 
             }
         }
-        if (cardcounter == 2)
+        if (cardcounter >= 2)
         {
             return true;
         }
@@ -185,8 +189,8 @@ public class Player : MonoBehaviour
     }
     bool isThreeOKind()
     {
-
-        for (int i = 0; i < 3; i++)
+        groupIter = 5;
+        for (int i = 0; i < groupIter; i++)
         {
             int cardcounter = 0;
             for (int j = i + 1; j < fullHand.Length; j++)
@@ -217,10 +221,11 @@ public class Player : MonoBehaviour
     }
     bool isThreeOKind(int index)
     {
-        for (int i = index; i < 3; i++)
+        groupIter = 5;
+        for (int i = index; i < 5; i++)
         {
             int cardcounter = 0;
-            for (int j = i + 1; j < fullHand.Length; j++)
+            for (int j = i + 1; j < groupIter; j++)
             {
                 if (fullHand[i].Cn == fullHand[j].Cn)
                 {
@@ -247,8 +252,8 @@ public class Player : MonoBehaviour
     }
     bool isFourOKind()
     {
-        
-        for (int i = 0; i < 4; i++)
+        groupIter = 4;
+        for (int i = 0; i < groupIter; i++)
         {
             int cardcounter = 0;
             for (int j = i + 1; j < fullHand.Length; j++)
