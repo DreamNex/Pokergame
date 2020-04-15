@@ -25,13 +25,25 @@ public class GManager : MonoBehaviour
     public void DealRound()
     {
         Dec = OriginalDec;
+
         Dec.GetComponent<Deck>().ResetDeck();
         Dec.GetComponent<Deck>().ShuffleDeck();
 
         DealCards();
 
-        //Player1.GetComponent<Player>().SortCards();
-        //Player2.GetComponent<Player>().SortCards();
+        Player1.GetComponent<Player>().CollectCards();
+        Player2.GetComponent<Player>().CollectCards();
+
+        //Player1.GetComponent<Player>().Hand[0].Cn = Cards.CardNum.JACK;
+        //Player1.GetComponent<Player>().Hand[0].suit = Cards.Suits.CLUBS;
+        //Player1.GetComponent<Player>().Hand[1].Cn = Cards.CardNum.NINE;
+        //Player1.GetComponent<Player>().Hand[1].suit = Cards.Suits.HEARTS;
+
+        //Player2.GetComponent<Player>().Hand[0].Cn = Cards.CardNum.JACK;
+        //Player2.GetComponent<Player>().Hand[0].suit = Cards.Suits.SPADES;
+        //Player2.GetComponent<Player>().Hand[1].Cn = Cards.CardNum.FOUR;
+        //Player2.GetComponent<Player>().Hand[1].suit = Cards.Suits.DIAMONDS;
+
         Player1.GetComponent<Player>().GetHand();
         Player2.GetComponent<Player>().GetHand();
 
@@ -62,13 +74,132 @@ public class GManager : MonoBehaviour
     {
         if(Player1.GetComponent<Player>().dhand == Player2.GetComponent<Player>().dhand)
         {
-            if(Player1.GetComponent<Player>().GetHighestCard() > Player2.GetComponent<Player>().GetHighestCard())
+            //Check for flush if the table cards are already a flush resulting in tie
+            if(Player1.GetComponent<Player>().dhand == Player.DHand.FLUSH)
+            {
+                int counter = 0;
+                int[] Player1Flush = Player1.GetComponent<Player>().SortBigtoSmall();
+                int[] Player2Flush =  Player2.GetComponent<Player>().SortBigtoSmall();
+
+                
+
+                for(int x = 0; x <= 5; x++)
+                {
+                    if(Player1Flush[x] == Player2Flush[x])
+                    {
+                        counter++;
+                    }
+                    else
+                    {
+                        if(Player1Flush[x] > Player2Flush[x])
+                        {
+                            GameOverText.GetComponent<Text>().text = "Player 1 Wins!";
+                        }
+                        else if(Player2Flush[x] > Player1Flush[x])
+                        {
+                            GameOverText.GetComponent<Text>().text = "Player 2 Wins!";
+                        }
+                    }
+                }
+                if(counter == 5)
+                {
+                    GameOverText.GetComponent<Text>().text = "Its a tie!";
+                }
+            }
+            else if(Player1.GetComponent<Player>().GetHighestCard() > Player2.GetComponent<Player>().GetHighestCard())
             {
                 GameOverText.GetComponent<Text>().text = "Player 1 Wins!";
             }
+            else if (Player1.GetComponent<Player>().GetHighestCard() == Player2.GetComponent<Player>().GetHighestCard() &&
+                Player1.GetComponent<Player>().dhand == Player.DHand.TWOPAIR)
+            {
+                Cards.CardNum temp1 = Cards.CardNum.DEFAULT;
+                Cards.CardNum temp2 = Cards.CardNum.DEFAULT;
+
+                for (int i = 0; i < Player1.GetComponent<Player>().GetFullHand().Length; i++)
+                {
+                    for (int j = i + 1; j < Player1.GetComponent<Player>().GetFullHand().Length; j++)
+                    {
+                        //Pair check
+                        if (Player1.GetComponent<Player>().GetFullHand()[i].Cn == Player1.GetComponent<Player>().GetFullHand()[j].Cn)
+                        {
+                            if (Player1.GetComponent<Player>().GetFullHand()[i].Cn != Player1.GetComponent<Player>().GetHighestCard())
+                            {
+                                temp1 = Player1.GetComponent<Player>().GetFullHand()[i].Cn;
+                            }
+                            
+                        }
+
+                        if (Player2.GetComponent<Player>().GetFullHand()[i].Cn == Player2.GetComponent<Player>().GetFullHand()[j].Cn)
+                        {
+                            if (Player2.GetComponent<Player>().GetFullHand()[i].Cn != Player2.GetComponent<Player>().GetHighestCard())
+                            {
+                                temp2 = Player2.GetComponent<Player>().GetFullHand()[i].Cn;
+                            }
+
+                        }
+
+
+                    }
+                }
+
+                if(temp1 > temp2)
+                {
+                    GameOverText.GetComponent<Text>().text = "Player 1 Wins";
+                }
+                else if (temp1 < temp2)
+                {
+                    GameOverText.GetComponent<Text>().text = "Player 2 Wins";
+                }
+            }
             else if(Player1.GetComponent<Player>().GetHighestCard() == Player2.GetComponent<Player>().GetHighestCard())
             {
-               GameOverText.GetComponent<Text>().text = "It's a tie!";
+                Cards.CardNum temp1 = Cards.CardNum.DEFAULT;
+                Cards.CardNum temp2 = Cards.CardNum.DEFAULT;
+                for (int i = 0; i < Player1.GetComponent<Player>().Hand.Length; i++)
+                {
+                    if (temp1 == Cards.CardNum.DEFAULT)
+                    {
+                        temp1 = Player1.GetComponent<Player>().Hand[i].Cn;
+                    }
+                    else if(temp1 < Player1.GetComponent<Player>().Hand[i].Cn)
+                    {
+                        temp1 = Player1.GetComponent<Player>().Hand[i].Cn;
+                    }
+                    if(temp2 == Cards.CardNum.DEFAULT)
+                    {
+                        temp2 = Player2.GetComponent<Player>().Hand[i].Cn;
+                    }
+                    else if(temp2 < Player2.GetComponent<Player>().Hand[i].Cn)
+                    {
+                        temp2 = Player2.GetComponent<Player>().Hand[i].Cn;
+                    }
+                    if(temp1 == temp2 && i == 1 && temp1 == Player1.GetComponent<Player>().Hand[i].Cn)
+                    {
+                        temp1 = Player1.GetComponent<Player>().Hand[0].Cn;
+                        temp2 = Player2.GetComponent<Player>().Hand[0].Cn;
+                    }
+                    else if(temp1 == temp2 && i == 1 && temp1 != Player1.GetComponent<Player>().Hand[i].Cn)
+                    {
+                        temp1 = Player1.GetComponent<Player>().Hand[i].Cn;
+                        temp2 = Player2.GetComponent<Player>().Hand[i].Cn;
+                    }
+                    
+                }
+
+                if(temp1 > temp2)
+                {
+                    GameOverText.GetComponent<Text>().text = "Player 1 Wins";
+                }
+                else if(temp1 < temp2)
+                {
+                    GameOverText.GetComponent<Text>().text = "Player 2 Wins";
+                }
+                else if (temp1 == temp2)
+                {
+                    GameOverText.GetComponent<Text>().text = "Its a tie!";
+                }
+
             }
             else
             {
